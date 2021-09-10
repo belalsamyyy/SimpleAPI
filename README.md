@@ -1,10 +1,6 @@
 # SimpleAPI
 Simple HTTP Networking in Swift based on UrlSession ⚡
 
-## Features
-
-- [X] Constraints are active by default.
-
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
