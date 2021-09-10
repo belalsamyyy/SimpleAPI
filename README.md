@@ -69,8 +69,8 @@ struct Post: Model {
 ### step 3 - create your API function in ViewController 
 
  - [X] just type `API` and specify the type of your `<object>` that you want to return  
- - [X] you have 2 function `object` to return one object `list` to return list of objects  
- - [X] `object` function takes 2 parameters the first one is `http method` enum like `.get(id)`, `.post`, `.put(id)`, `.delete(id)`
+ - [X] you have 2 function : `object` to return one object, `list` to return list of objects  
+ - [X] `object` function takes 2 parameters the first one is `http method` enum like `.get(id)`, `.post`
  - [X] the second parameter is `decode` boolean its `true` by default
  - [X] but if you didn't need to decode the response to consider it as a success make it `false`
 
