@@ -1,14 +1,6 @@
 # SimpleAPI
 Simple HTTP Networking in Swift based on UrlSession ⚡
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-```swift 
-    import 'SimpleAPI'
-```
-
 ## Installation
 
 SimpleAPI is available through [CocoaPods](https://cocoapods.org). To install
@@ -16,6 +8,14 @@ it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'SimpleAPI'
+```
+
+## Example
+
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+```swift 
+    import 'SimpleAPI'
 ```
 
 ## Usage 
