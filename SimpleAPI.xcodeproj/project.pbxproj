@@ -16,6 +16,8 @@
 		41E6885626EBE77500A04CAA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41E6885426EBE77500A04CAA /* Main.storyboard */; };
 		41E6885826EBE77700A04CAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41E6885726EBE77700A04CAA /* Assets.xcassets */; };
 		41E6885B26EBE77700A04CAA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41E6885926EBE77700A04CAA /* LaunchScreen.storyboard */; };
+		41E6886226EBE8BC00A04CAA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E6886026EBE8BC00A04CAA /* API.swift */; };
+		41E6886326EBE8BC00A04CAA /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E6886126EBE8BC00A04CAA /* APIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +45,8 @@
 		41E6885726EBE77700A04CAA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		41E6885A26EBE77700A04CAA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		41E6885C26EBE77700A04CAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		41E6886026EBE8BC00A04CAA /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		41E6886126EBE8BC00A04CAA /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 			children = (
 				41E6883126EBE75100A04CAA /* SimpleAPI.h */,
 				41E6883226EBE75100A04CAA /* Info.plist */,
+				41E6886026EBE8BC00A04CAA /* API.swift */,
+				41E6886126EBE8BC00A04CAA /* APIService.swift */,
 			);
 			path = SimpleAPI;
 			sourceTree = "<group>";
@@ -201,6 +207,7 @@
 				TargetAttributes = {
 					41E6882D26EBE75100A04CAA = {
 						CreatedOnToolsVersion = 12.5.1;
+						LastSwiftMigration = 1250;
 					};
 					41E6883626EBE75100A04CAA = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -262,6 +269,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41E6886326EBE8BC00A04CAA /* APIService.swift in Sources */,
+				41E6886226EBE8BC00A04CAA /* API.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +447,7 @@
 		41E6884326EBE75100A04CAA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8A4HTMPS6P;
@@ -454,6 +464,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.belalsamy.SimpleAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -462,6 +473,7 @@
 		41E6884426EBE75100A04CAA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8A4HTMPS6P;
@@ -486,6 +498,7 @@
 		41E6884626EBE75100A04CAA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8A4HTMPS6P;
 				INFOPLIST_FILE = SimpleAPITests/Info.plist;
@@ -504,6 +517,7 @@
 		41E6884726EBE75100A04CAA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8A4HTMPS6P;
 				INFOPLIST_FILE = SimpleAPITests/Info.plist;
