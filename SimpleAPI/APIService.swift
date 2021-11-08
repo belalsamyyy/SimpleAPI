@@ -8,10 +8,10 @@
 import Foundation
 
 public enum HTTPMethod {
-    case get(_ id: Int)
+    case get(_ id: String)
     case post
-    case put(_ id: Int)
-    case delete(_ id: Int)
+    case put(_ id: String)
+    case delete(_ id: String)
     
     var name: String {
         switch self {
@@ -30,7 +30,7 @@ public enum HTTPMethod {
 public typealias Params = [String: Any]
 public typealias Headers = [String: String]
 
-class APIService {
+public class APIService {
     
     public enum Response {
         case success(Data?)
@@ -42,43 +42,36 @@ class APIService {
                                params: Params? = nil,
                                headers: Headers? = nil,
                                complete: @escaping (_ response: Response) -> ()) {
-            
-            //MARK: - session
-        
-            let session = URLSession.shared
 
-            //MARK: - url
-        
+            // request from endpoint
             guard let url = URL(string: endpoint) else { return }
             var request = URLRequest(url: url)
             
-            //MARK: - method
-        
+            // method
             request.httpMethod = method.name
-            
-            //MARK: - headers
         
-            if let headers = headers {
-                for (key, value) in headers {
-                    request.setValue("\(value)", forHTTPHeaderField: "\(key)")
-                }
-            }
-        
-            //MARK: - parameters
+            // parameters
             if let params = params {
                 guard let httpBody = try? JSONSerialization.data(withJSONObject: params, options: []) else {
                     return
                 }
                 request.httpBody = httpBody
             }
+            
+            // headers
+            if let headers = headers {
+                for (key, value) in headers {
+                    request.setValue("\(value)", forHTTPHeaderField: "\(key)")
+                }
+            }
         
-            //MARK: - url session task
         
-            session.dataTask(with: request) { data, response, error in
+            // url session task
+            URLSession.shared.dataTask(with: request) { data, response, error in
                 
                 guard let myResponse = response else { return }
                 let statusCode = (myResponse as! HTTPURLResponse).statusCode
-                
+                                
                 if 200 ... 299 ~= statusCode {
                     complete(.success(data))
                     

@@ -3,12 +3,12 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "SimpleAPI"
-  spec.version      = "0.0.1"
-  spec.summary      = "Simple HTTP Networking in Swift"
+  spec.version      = "2.0.0"
+  spec.summary      = "Simple HTTP Networking in Swift based on UrlSession"
 
 
   spec.description  = <<-DESC
-    Simple HTTP Networking in Swift based on UrlSession
+    Simple and generic HTTP Networking in Swift based on UrlSession, you don't need to create an API Manager anymore, it's just work !
                    DESC
 
   spec.homepage     = "https://github.com/belalsamyyy/SimpleAPI"

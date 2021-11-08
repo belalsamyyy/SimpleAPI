@@ -9,7 +9,7 @@ import Foundation
 
 //MARK: - Generic Model
 
-protocol Model: Codable {
+public protocol Model: Codable {
     static var endpoint: String! { get set }
     static var params: Params? { get set }
     static var headers: Headers? { get set }
@@ -17,14 +17,14 @@ protocol Model: Codable {
 
 //MARK: - Generic Function
 
-class API<M: Model> {
+public class API<M: Model> {
     
-    enum ObjectResult {
+    public enum ObjectResult {
         case success(M?)
         case failure(String)
     }
     
-    enum ListResult {
+    public enum ListResult {
         case success([M?])
         case failure(String)
     }
@@ -32,7 +32,7 @@ class API<M: Model> {
     
     // object
     
-    static func object(_ method: HTTPMethod, decode: Bool = true, _ result: @escaping (_ result: ObjectResult ) -> ()) {
+    public static func object(_ method: HTTPMethod, decode: Bool = true, _ result: @escaping (_ result: ObjectResult ) -> ()) {
         
         let endPoint: String
         
@@ -42,9 +42,9 @@ class API<M: Model> {
         case .post:
             endPoint = M.endpoint
         case .put(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
+            endPoint = "\(M.endpoint!)\(id)"
         case .delete(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
+            endPoint = "\(M.endpoint!)\(id)"
         }
         
         APIService.request(endPoint, method: method, params: M.params, headers: M.headers) { response in
@@ -81,8 +81,8 @@ class API<M: Model> {
     
     // list
     
-    static func list(_ result: @escaping (_ result: ListResult ) -> ()) {
-        APIService.request(M.endpoint, method: .get(0), params: M.params, headers: M.headers) { response in
+    public static func list(_ result: @escaping (_ result: ListResult ) -> ()) {
+        APIService.request(M.endpoint, method: .get(""), params: M.params, headers: M.headers) { response in
             switch response {
             case .success(let data):
                 
