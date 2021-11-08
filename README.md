@@ -164,7 +164,7 @@ struct Post: Model {
     }
 ```
 
-### step 4 - call your API function in ViewDidlOAD 
+### step 4 - call your API function in `viewDidLoad()` 
 ```swift 
     override func viewDidLoad() {
         super.viewDidLoad()
