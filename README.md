@@ -99,7 +99,7 @@ struct Post: Model {
 
 ```swift 
     //MARK: - get post with id
-    func getPost(id: Int) {
+    func getPost(id: String) {
         API<Post>.object(.get(id)) { result in
             switch result {
             case .success(let post):
@@ -134,7 +134,7 @@ struct Post: Model {
 
 ```swift 
     //MARK: - update post with id
-    func updatePost(id: Int, title: String, body: String) {
+    func updatePost(id: String, title: String, body: String) {
         Post.setParams(title: title, body: body)
 
         API<Post>.object(.put(id)) { result in
@@ -152,7 +152,7 @@ struct Post: Model {
 
 ```swift 
     //MARK: - delete post with id
-    func deletePost(id: Int) {        
+    func deletePost(id: String) {        
         API<Post>.object(.delete(id), decode: false) { result in
             switch result {
             case .success(_):
