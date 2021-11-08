@@ -74,8 +74,13 @@ struct Post: Model {
  - [X] the second parameter is `decode` boolean its `true` by default
  - [X] but if you didn't need to decode the response to consider it as a success make it `false`
 
+💡 Tip: `.get(id)` it will add `/id` at the end of your end point automatically
+
+
+### GET - list of objects
+
 ```swift 
-//MARK: - get list of posts
+    //MARK: - get list of posts
     func getPosts() {
         API<Post>.list { result in
             switch result {
@@ -88,10 +93,14 @@ struct Post: Model {
             }
         }
     }
-    
+```
+
+### GET - object with id
+
+```swift 
     //MARK: - get post with id
     func getPost(id: Int) {
-        API<Post>.object(.get("\(id)")) { result in
+        API<Post>.object(.get(id)) { result in
             switch result {
             case .success(let post):
                 print(post!.title)
@@ -100,7 +109,11 @@ struct Post: Model {
             }
         }
     }
-    
+```
+
+### POST - object with id
+
+```swift 
     //MARK: - set post
     func setPost(title: String, body: String) {
         Post.setParams(title: title, body: body)
@@ -114,12 +127,17 @@ struct Post: Model {
             }
         }
     }
+```
     
+   
+### PUT - object with id
+
+```swift 
     //MARK: - update post with id
     func updatePost(id: Int, title: String, body: String) {
         Post.setParams(title: title, body: body)
-        
-        API<Post>.object(.put("\(id)")) { result in
+
+        API<Post>.object(.put(id)) { result in
             switch result {
             case .success(let post):
                 print(post!.body)
@@ -128,10 +146,14 @@ struct Post: Model {
             }
         }
     }
+```
     
+### DELETE - object with id
+
+```swift 
     //MARK: - delete post with id
     func deletePost(id: Int) {        
-        API<Post>.object(.delete("\(id)"), decode: false) { result in
+        API<Post>.object(.delete(id), decode: false) { result in
             switch result {
             case .success(_):
                 print("Deleted Successfully !")
