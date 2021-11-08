@@ -91,7 +91,7 @@ struct Post: Model {
     
     //MARK: - get post with id
     func getPost(id: Int) {
-        API<Post>.object(.get(id)) { result in
+        API<Post>.object(.get("\(id)")) { result in
             switch result {
             case .success(let post):
                 print(post!.title)
@@ -119,7 +119,7 @@ struct Post: Model {
     func updatePost(id: Int, title: String, body: String) {
         Post.setParams(title: title, body: body)
         
-        API<Post>.object(.put(id)) { result in
+        API<Post>.object(.put("\(id)")) { result in
             switch result {
             case .success(let post):
                 print(post!.body)
@@ -131,7 +131,7 @@ struct Post: Model {
     
     //MARK: - delete post with id
     func deletePost(id: Int) {        
-        API<Post>.object(.delete(id), decode: false) { result in
+        API<Post>.object(.delete("\(id)"), decode: false) { result in
             switch result {
             case .success(_):
                 print("Deleted Successfully !")
