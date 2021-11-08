@@ -164,6 +164,15 @@ struct Post: Model {
     }
 ```
 
+### step 4 - call your API function in ViewDidlOAD 
+```swift 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        getPosts()
+    }
+```
+
 
 ## Author
 
