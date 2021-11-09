@@ -42,9 +42,9 @@ public class API<M: Model> {
         case .post:
             endPoint = M.endpoint
         case .put(let id):
-            endPoint = "\(M.endpoint!)\(id)"
+            endPoint = "\(M.endpoint!)/\(id)"
         case .delete(let id):
-            endPoint = "\(M.endpoint!)\(id)"
+            endPoint = "\(M.endpoint!)/\(id)"
         }
         
         APIService.request(endPoint, method: method, params: M.params, headers: M.headers) { response in
