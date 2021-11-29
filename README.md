@@ -24,6 +24,7 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ```swift 
 import Foundation
+import SimpleAPI
 
 let BASE_URL = "https://jsonplaceholder.typicode.com"
 
