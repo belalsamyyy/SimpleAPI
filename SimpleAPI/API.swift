@@ -37,6 +37,8 @@ public class API<M: Model> {
         let endPoint: String
         
         switch method {
+        case .getWithoutID:
+            endPoint = M.endpoint
         case .get(let id):
             endPoint = "\(M.endpoint!)/\(id)"
         case .post:
@@ -82,7 +84,7 @@ public class API<M: Model> {
     // list
     
     public static func list(_ result: @escaping (_ result: ListResult ) -> ()) {
-        APIService.request(M.endpoint, method: .get(""), params: M.params, headers: M.headers) { response in
+        APIService.request(M.endpoint, method: .getWithoutID, params: M.params, headers: M.headers) { response in
             switch response {
             case .success(let data):
                 

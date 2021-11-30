@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "SimpleAPI"
-  spec.version      = "2.0.1"
+  spec.version      = "2.0.2"
   spec.summary      = "Simple HTTP Networking in Swift based on UrlSession"
 
 
@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   spec.license      = { :type => "MIT", :file => "LICENSE" }
   spec.author       = { "Belal Samy" => "belalsamy10@gmail.com" }
   
-  spec.ios.deployment_target = "14.5"
+  spec.ios.deployment_target = "13.0"
   spec.swift_version = "5"
   
   spec.source       = { :git => "https://github.com/belalsamyyy/SimpleAPI.git", :tag => "#{spec.version}" }

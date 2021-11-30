@@ -8,6 +8,7 @@
 import Foundation
 
 public enum HTTPMethod {
+    case getWithoutID
     case get(_ id: String)
     case post
     case put(_ id: String)
@@ -15,6 +16,8 @@ public enum HTTPMethod {
     
     var name: String {
         switch self {
+        case .getWithoutID:
+            return "GET"
         case .get:
             return "GET"
         case .post:
