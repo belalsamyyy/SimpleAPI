@@ -96,6 +96,22 @@ struct Post: Model {
     }
 ```
 
+### GET - object without id
+
+```swift 
+    //MARK: - get post with id
+    func getPost() {
+        API<Post>.object(.getWithoutID) { result in
+            switch result {
+            case .success(let post):
+                print(post!.title)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+```
+
 ### GET - object with id
 
 ```swift 
