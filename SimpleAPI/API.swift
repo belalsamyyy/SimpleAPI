@@ -54,7 +54,7 @@ public class API<M: Model> {
             case .success(let data):
                 
                 guard let data = data else {
-                    result(.failure("didin't get any data from API"))
+                    DispatchQueue.main.async { result(.failure("didin't get any data from API")) } // Main Thread
                     return
                 }
                 
@@ -62,20 +62,26 @@ public class API<M: Model> {
                     // =============== You need to decode ====================
                     do {
                         let data = try JSONDecoder().decode(M.self, from: data)
-                        result(.success(data))
+                        DispatchQueue.main.async { result(.success(data)) } // Main Thread
 
                     } catch {
-                        result(.failure("Error trying to decode response : \(error.localizedDescription)"))
+                        DispatchQueue.main.async {
+                            result(.failure("Error trying to decode response : \(error.localizedDescription)"))
+                        } // Main Thread
                     }
                     
                 } else {
                     // =============== Dont need to decode ====================
-                    result(.success(nil))
+                    DispatchQueue.main.async { result(.success(nil)) } // Main Thread
+
                 }
    
                 
             case .failure(let error):
-                result(.failure("Error while fetching data : \(error?.localizedDescription ?? "error")"))
+                // Main Thread
+                DispatchQueue.main.async {
+                    result(.failure("Error while fetching data : \(error?.localizedDescription ?? "error")"))
+                }
             }
         }
     }
@@ -89,20 +95,26 @@ public class API<M: Model> {
             case .success(let data):
                 
                 guard let data = data else {
-                    result(.failure("didin't get any data from API"))
+                    DispatchQueue.main.async { result(.failure("didin't get any data from API")) } // Main Thread
                     return
                 }
     
                 do {
                     let data = try JSONDecoder().decode([M].self, from: data)
-                    result(.success(data))
+                    DispatchQueue.main.async { result(.success(data)) } // Main Thread
 
                 } catch {
-                    result(.failure("Error trying to decode response : \(error.localizedDescription)"))
+                    // Main Thread
+                    DispatchQueue.main.async {
+                        result(.failure("Error trying to decode response : \(error.localizedDescription)"))
+                    }
                 }
 
             case .failure(let error):
-                result(.failure("Error while fetching data : \(error?.localizedDescription ?? "error")"))
+                // Main Thread
+                DispatchQueue.main.async {
+                    result(.failure("Error while fetching data : \(error?.localizedDescription ?? "error")"))
+                }
             }
         }
     }

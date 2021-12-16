@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2FCAB326276B73DE009FEF7C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCAB325276B73DE009FEF7C /* Constants.swift */; };
+		2FCAB328276B7467009FEF7C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FCAB327276B7467009FEF7C /* Post.swift */; };
+		2FCAB32A276B74FC009FEF7C /* SimpleAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41E6882E26EBE75100A04CAA /* SimpleAPI.framework */; };
+		2FCAB32B276B74FC009FEF7C /* SimpleAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 41E6882E26EBE75100A04CAA /* SimpleAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		41E6883826EBE75100A04CAA /* SimpleAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41E6882E26EBE75100A04CAA /* SimpleAPI.framework */; };
 		41E6883D26EBE75100A04CAA /* SimpleAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E6883C26EBE75100A04CAA /* SimpleAPITests.swift */; };
 		41E6883F26EBE75100A04CAA /* SimpleAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 41E6883126EBE75100A04CAA /* SimpleAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -21,6 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2FCAB32C276B74FC009FEF7C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41E6882526EBE75100A04CAA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 41E6882D26EBE75100A04CAA;
+			remoteInfo = SimpleAPI;
+		};
 		41E6883926EBE75100A04CAA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 41E6882526EBE75100A04CAA /* Project object */;
@@ -30,7 +41,23 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2FCAB32E276B74FC009FEF7C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2FCAB32B276B74FC009FEF7C /* SimpleAPI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		2FCAB325276B73DE009FEF7C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		2FCAB327276B7467009FEF7C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		41E6882E26EBE75100A04CAA /* SimpleAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SimpleAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41E6883126EBE75100A04CAA /* SimpleAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAPI.h; sourceTree = "<group>"; };
 		41E6883226EBE75100A04CAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,12 +96,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FCAB32A276B74FC009FEF7C /* SimpleAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FCAB329276B74FC009FEF7C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		41E6882426EBE75100A04CAA = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +117,7 @@
 				41E6883B26EBE75100A04CAA /* SimpleAPITests */,
 				41E6884D26EBE77500A04CAA /* SimpleAPIExamples */,
 				41E6882F26EBE75100A04CAA /* Products */,
+				2FCAB329276B74FC009FEF7C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -120,6 +156,8 @@
 			children = (
 				41E6884E26EBE77500A04CAA /* AppDelegate.swift */,
 				41E6885026EBE77500A04CAA /* SceneDelegate.swift */,
+				2FCAB325276B73DE009FEF7C /* Constants.swift */,
+				2FCAB327276B7467009FEF7C /* Post.swift */,
 				41E6885226EBE77500A04CAA /* ViewController.swift */,
 				41E6885426EBE77500A04CAA /* Main.storyboard */,
 				41E6885726EBE77700A04CAA /* Assets.xcassets */,
@@ -186,10 +224,12 @@
 				41E6884826EBE77500A04CAA /* Sources */,
 				41E6884926EBE77500A04CAA /* Frameworks */,
 				41E6884A26EBE77500A04CAA /* Resources */,
+				2FCAB32E276B74FC009FEF7C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2FCAB32D276B74FC009FEF7C /* PBXTargetDependency */,
 			);
 			name = SimpleAPIExamples;
 			productName = SimpleAPIExamples;
@@ -289,12 +329,19 @@
 				41E6885326EBE77500A04CAA /* ViewController.swift in Sources */,
 				41E6884F26EBE77500A04CAA /* AppDelegate.swift in Sources */,
 				41E6885126EBE77500A04CAA /* SceneDelegate.swift in Sources */,
+				2FCAB326276B73DE009FEF7C /* Constants.swift in Sources */,
+				2FCAB328276B7467009FEF7C /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2FCAB32D276B74FC009FEF7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 41E6882D26EBE75100A04CAA /* SimpleAPI */;
+			targetProxy = 2FCAB32C276B74FC009FEF7C /* PBXContainerItemProxy */;
+		};
 		41E6883A26EBE75100A04CAA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 41E6882D26EBE75100A04CAA /* SimpleAPI */;
@@ -449,7 +496,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8A4HTMPS6P;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -477,7 +524,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8A4HTMPS6P;
 				DYLIB_COMPATIBILITY_VERSION = 1;
