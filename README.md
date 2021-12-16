@@ -190,6 +190,17 @@ struct Post: Model {
     }
 ```
 
+💡 last tip:  you can customize your `endpoint` from your function as you want, like this 
+
+```swift 
+   func getVideos(page: Int, genreID: String) {
+        Video.endpoint = "\(Defaults.BASE_URL)\(CategoryName.movies)/genre/\(genreID)/\(page)" // << endpoint
+        API<Video>.list { [weak self] result in
+          // .
+          // . 
+          // .
+```
+
 
 ## Author
 
