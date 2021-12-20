@@ -13,8 +13,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // the normal way to do it with success & failure callback
         getPost(id: "5")
+        
+        // with the quicker function that just return the value directly, you can do it in "1" line
+        API<Post>.quickObject(.get("5")) { [weak self] post in self?.label.text = post?.title }
     }
     
     //MARK: - get post with id
@@ -29,7 +32,6 @@ class ViewController: UIViewController {
             }
         }
     }
-
 
 }
 
