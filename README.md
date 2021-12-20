@@ -70,7 +70,7 @@ struct Post: Model {
 ### step 3 - create your API function in ViewController 
 
  - [X] just type `API` and specify the type of your `<object>` that you want to return  
- - [X] you have 2 function : `object` to return one object, `list` to return list of objects  
+ - [X] you have 2 functions : `object` to return one object, `list` to return list of objects  
  - [X] `object` function takes 2 parameters the first one is `http method` enum like `.get(id)`, `.post`
  - [X] the second parameter is `decode` boolean its `true` by default
  - [X] but if you didn't need to decode the response to consider it as a success make it `false`
@@ -190,7 +190,10 @@ struct Post: Model {
     }
 ```
 
-💡 last tip:  you can customize your `endpoint` from your function as you want, like this 
+### One More Thing 😎
+
+
+💡 tip #1:  you can customize your `endpoint` from your function as you want, like this 
 
 ```swift 
    func getVideos(page: Int, genreID: String) {
@@ -200,6 +203,42 @@ struct Post: Model {
           // . 
           // .
 ```
+
+
+💡 tip #2: there are quicker versions of our 2 main funtions => `quickObject` & `quickList`
+
+```swift 
+import UIKit
+import SimpleAPI
+
+class ViewController: UIViewController {
+    @IBOutlet var label: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // the normal way to do it with success & failure callback 
+        getPost(id: "5") 
+        
+        // with the quicker function that just return the value directly, you can do it in "1" line
+        API<Post>.quickObject(.get("5")) { [weak self] post in self?.label.text = post?.title }
+    }
+    
+    //MARK: - get post with id
+    func getPost(id: String) {
+        API<Post>.object(.get(id)) { [weak self] result in
+            switch result {
+            case .success(let post):
+                self?.label.text = post?.title
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
+}
+```
+
 
 
 ## Author
