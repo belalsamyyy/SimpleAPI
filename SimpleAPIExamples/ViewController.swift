@@ -16,11 +16,16 @@ class ViewController: UIViewController {
         // the normal way to do it with success & failure callback
         getPost(id: "5")
         
-        // with the quicker function that just return the value directly, you can do it in "1" line
-        API<Post>.quickObject(.get("5")) { [weak self] post in self?.label.text = post?.title }
+        // with the quicker function that just return the value directly
+        API<Post>.quickObject(.get("5")) { [weak self] post in
+            self?.label.text = post?.title
+            
+        }
     }
     
     //MARK: - get post with id
+    
+    // the normal way to do it with success & failure callback
     func getPost(id: String) {
         API<Post>.object(.get(id)) { [weak self] result in
             switch result {

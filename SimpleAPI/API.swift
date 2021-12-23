@@ -1,6 +1,6 @@
 //
 //  API.swift
-//  EasyAPI
+//  SimpleAPI
 //
 //  Created by Belal Samy on 10/09/2021.
 //
@@ -34,7 +34,7 @@ public class API<M: Model> {
     
     // object
     
-    public static func object(_ method: HTTPMethod, decode: Bool = true, _ result: @escaping (_ result: ObjectResult ) -> ()) {
+    public static func object(_ method: HTTPMethod, decode: Bool = true, _ body: Encoding = .json, _ result: @escaping (_ result: ObjectResult ) -> ()) {
         
         let endPoint: String
         
@@ -51,7 +51,7 @@ public class API<M: Model> {
             endPoint = "\(M.endpoint!)/\(id)"
         }
         
-        APIService.request(endPoint, method: method, params: M.params, headers: M.headers) { response in
+        APIService.request(endPoint, method: method, params: M.params, headers: M.headers, encoding: body) { response in
             switch response {
             case .success(let data):
                 
@@ -124,7 +124,7 @@ public class API<M: Model> {
     //MARK: - Quicker Version
     
     // Quick object
-    public static func quickObject(_ method: HTTPMethod, decode: Bool = true, _ result: @escaping (_ result: M? ) -> ()) {
+    public static func quickObject(_ method: HTTPMethod, decode: Bool = true, _ body: Encoding = .json, _ result: @escaping (_ result: M? ) -> ()) {
         
         let endPoint: String
         
@@ -141,7 +141,7 @@ public class API<M: Model> {
             endPoint = "\(M.endpoint!)/\(id)"
         }
         
-        APIService.request(endPoint, method: method, params: M.params, headers: M.headers) { response in
+        APIService.request(endPoint, method: method, params: M.params, headers: M.headers, encoding: body) { response in
             switch response {
             case .success(let data):
                 

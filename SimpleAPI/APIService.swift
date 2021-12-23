@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  EasyAPI
+//  APIService.swift
+//  SimpleAPI
 //
 //  Created by Belal Samy on 10/09/2021.
 //
@@ -30,8 +30,14 @@ public enum HTTPMethod {
     }
 }
 
+public enum Encoding {
+    case json
+    case urlencoded
+}
+
 public typealias Params = [String: Any]
 public typealias Headers = [String: String]
+
 
 public class APIService {
     
@@ -44,6 +50,7 @@ public class APIService {
                                method: HTTPMethod,
                                params: Params? = nil,
                                headers: Headers? = nil,
+                               encoding: Encoding = .json,
                                complete: @escaping (_ response: Response) -> ()) {
 
             // request from endpoint
@@ -58,7 +65,15 @@ public class APIService {
                 guard let httpBody = try? JSONSerialization.data(withJSONObject: params, options: []) else {
                     return
                 }
-                request.httpBody = httpBody
+                
+                switch encoding {
+                case .json:
+                    request.httpBody = httpBody
+                    
+                case .urlencoded:
+                    request.httpBody = urlEncoded(dict: params).data(using: .utf8)
+                }
+                
             }
             
             // headers
@@ -84,4 +99,14 @@ public class APIService {
             }.resume()
             
         }
+}
+
+
+func urlEncoded(dict: [String: Any]) -> String {
+    var resultString = ""
+    for (key, value) in dict {
+        resultString = "\(resultString)&\(key)=\(value)"
+    }
+    resultString.removeFirst()
+    return resultString
 }

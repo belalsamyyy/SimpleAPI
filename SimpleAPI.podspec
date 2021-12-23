@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
 
 
   spec.name         = "SimpleAPI"
-  spec.version      = "2.0.4"
+  spec.version      = "2.0.5"
   spec.summary      = "Simple HTTP Networking in Swift based on UrlSession"
 
 
