@@ -10,14 +10,6 @@ it, simply add the following line to your Podfile:
 pod 'SimpleAPI'
 ```
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-```swift 
-    import 'SimpleAPI'
-```
-
 ## Usage 
 
 ### Step 1 - create `Constants.swift` file for your API Urls 
@@ -192,12 +184,11 @@ struct Post: Model {
 
 ## Extra Tips 😎
 
-
 💡 tip #1:  you can customize your `endpoint` from your function as you want, like this 
 
 ```swift 
    func getVideos(page: Int, genreID: String) {
-        Video.endpoint = "\(Defaults.BASE_URL)\(CategoryName.movies)/genre/\(genreID)/\(page)" // << endpoint
+        Video.endpoint = "\(BASE_URL)\(CategoryName.movies)/genre/\(genreID)/\(page)" // << endpoint
         API<Video>.list { [weak self] result in
           // .
           // . 
