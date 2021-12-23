@@ -7,7 +7,7 @@ Simple lightweight HTTP Networking Library written in Swift based on UrlSession
 
 just look at this example for quick `GET` request :
 ```swift
-// return object of type "Post" with ID "5"
+// return quick object of type "Post" with ID "5"
 // and use it immediately to set post's title property to a label text 
 API<Post>.quickObject(.get("5")) { [weak self] post in 
     self?.label.text = post?.title
