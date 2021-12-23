@@ -210,7 +210,7 @@ struct Post: Model {
 ```
 
 
-💡 tip #2: there're quicker versions of our 2 main funtions => `quickObject` & `quickList`
+💡 tip #2: there're quicker versions of our 2 main functions => `quickObject` & `quickList`
  - [X] `object` & `list` comes with success & failure callbacks
  - [X] but `quickObject` & `quickList` just return the value directly
  - [X] if quick functions fails it'll only print the error without customizations 
