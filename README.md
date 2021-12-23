@@ -5,6 +5,15 @@ Simple HTTP Networking in Swift based on UrlSession
 - You can access data on the Internet with zero effort
 - So, your code will be much cleaner and easier to read
 
+just look at this example for quick `GET` request :
+```swift
+// return object of type "Post" with ID "5"
+// and use it immediately to set post's title property to a label text 
+API<Post>.quickObject(.get("5")) { [weak self] post in 
+    self?.label.text = post?.title
+}
+```
+
 ## Installation
 
 SimpleAPI is available through [CocoaPods](https://cocoapods.org). To install
