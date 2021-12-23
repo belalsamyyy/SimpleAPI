@@ -215,6 +215,24 @@ API<Post>.quickList() { posts in
 }
 ```
 
+
+💡 tip #3: SimpleAPI set your parmaters to request's body
+- [X] parameters encoded as `json` by default
+- [X] but your can change it, to encoded as `urlencoded` like this 
+
+```swift 
+func login(email: String, password: String) {
+    // API
+    Token.setParams(email: email, password: password)
+
+    // Token
+    API<Token>.quickObject(.post, .urlencoded) { token in
+        // write your logic here 
+    }
+}
+```
+
+
 ## Author
 
 BelalSamy, belalsamy10@gmail.com
