@@ -25,7 +25,7 @@ pod 'SimpleAPI'
 
 ## Usage 
 
-### Step 1 - create `Constants.swift` file for your API Urls 
+### Step 1 [optional] - create `Constants.swift` file for your API Urls 
 
 ```swift 
 import Foundation
@@ -37,7 +37,7 @@ struct Endpoints {
 }
 ```
 
-### step 2 - make your model conform `Model` protocol 
+### step 2 [required] - your model must conform `Model` protocol 
 
  Model protocol will add 3 static properties to your struct 
  - [X] endpoint 
