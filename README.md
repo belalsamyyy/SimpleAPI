@@ -9,8 +9,8 @@ just look at this example for quick `GET` request :
 ```swift
 // "get" quick object of type "Post" with ID "5"
 // and use it immediately to set post's title property to a label text 
-API<Post>.quickObject(.get("5")) { [weak self] post in 
-    self?.label.text = post?.title
+API<Post>.quickObject(.get("5")) { post in 
+    self.label.text = post?.title
 }
 ```
 
@@ -203,7 +203,7 @@ struct Post: Model {
 ```swift 
    func getVideos(page: Int, genreID: String) {
         Video.endpoint = "\(BASE_URL)\(CategoryName.movies)/genre/\(genreID)/\(page)" // << endpoint
-        API<Video>.list { [weak self] result in
+        API<Video>.list { result in
           // .
           // . 
           // .
@@ -216,8 +216,8 @@ struct Post: Model {
  - [X] if quick functions fails it'll only print the error without customizations 
 
 ```swift
-API<Post>.quickObject(.get("5")) { [weak self] post in 
-    self?.label.text = post?.title
+API<Post>.quickObject(.get("5")) { post in 
+    self.label.text = post?.title
 }
 ```
 
