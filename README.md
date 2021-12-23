@@ -1,5 +1,5 @@
 # SimpleAPI
-Simple HTTP Networking in Swift based on UrlSession ⚡
+Simple HTTP Networking in Swift based on UrlSession, networking easier, quicker & simpler than ever ⚡
 
 ## Installation
 
