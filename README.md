@@ -78,7 +78,7 @@ struct Post: Model {
  - [X] you have 2 functions : `object` to return one object, `list` to return list of objects  
  - [X] `object` function takes 3 parameters the first one is `http method` enum like `.get(id)`, `.post`
  - [X] the second parameter is `decode` boolean its `true` by default
- - [X] but if you didn't need to decode the response to consider it as a success make it `false`
+ - [X] but if API return nothing, you didn't need to decode the response to consider it as a success make it `false`
  - [X] the third parameter is `body` enum to specify request's httpbody encoding, it's `json` by default
 
 💡 Tip: `.get(id)` it will add `/id` at the end of your end point automatically
