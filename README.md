@@ -1,7 +1,5 @@
 # SimpleAPI
 
-### Create your model & work with your data immediately [ zero wasted time ] ⚡
-![Group 122-3](https://user-images.githubusercontent.com/38237387/150976405-5d527cb7-d99f-44e8-8352-1b2e4e4e3199.png)
 
 SimpleAPI is a lightweight HTTP Networking Library written in Swift based on UrlSession
 - networking easier, quicker & simpler than ever ⚡
