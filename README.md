@@ -117,7 +117,7 @@ API<Token>.object(.post, encoding: .url) { token in
 
 `listResult()` function 
 ```swift 
-API<Post>.list { result in
+API<Post>.listResult { result in
     switch result {
     case .success(let posts):
         // do whatever you want with "posts" array ... 
@@ -130,7 +130,7 @@ API<Post>.list { result in
 
 `objectResult()` function 
 ```swift 
-API<Post>.object(get("1")) { result in
+API<Post>.objectResult(get("1")) { result in
     switch result {
     case .success(let post):
         self.label = post.title
