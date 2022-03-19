@@ -21,7 +21,7 @@ import SimpleAPI
 
 struct Post: Model {
     //API
-    static var endpoint: String! = "https://jsonplaceholder.typicode.com"
+    static var endpoint: String! = "https://jsonplaceholder.typicode.com/posts"
     static var params: Params?
     static var headers: Headers? = ["Content-type": "application/json"]
 
@@ -99,7 +99,7 @@ API<Post>.object(.delete("1"), decoding: false) { post in
 #### POST 
 ```swift
 API<Token>.object(.post, encoding: .url) { token in
-    print("\(token) posted successfully!")
+    print("posted successfully !")
 }
 ```
 
