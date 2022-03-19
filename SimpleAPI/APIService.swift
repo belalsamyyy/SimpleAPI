@@ -28,11 +28,27 @@ public enum HTTPMethod {
             return "DELETE"
         }
     }
+    
+    var id: String {
+        switch self {
+        case .getWithoutID:
+            return ""
+        case .get(let id):
+            return "with id \"\(id)\""
+        case .post:
+            return ""
+        case .put(let id):
+            return "with id \"\(id)\""
+        case .delete(let id):
+            return "with id \"\(id)\""
+        }
+    }
+    
 }
 
 public enum Encoding {
     case json
-    case urlencoded
+    case url
 }
 
 public typealias Params = [String: Any]
@@ -54,7 +70,8 @@ public class APIService {
                                complete: @escaping (_ response: Response) -> ()) {
 
             // request from endpoint
-            guard let url = URL(string: endpoint) else { return }
+            guard let allowArabicAndSpacesInEndPoint = endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+            guard let url = URL(string: allowArabicAndSpacesInEndPoint) else { return }
             var request = URLRequest(url: url)
             
             // method
@@ -70,7 +87,7 @@ public class APIService {
                 case .json:
                     request.httpBody = httpBody
                     
-                case .urlencoded:
+                case .url:
                     request.httpBody = urlEncoded(dict: params).data(using: .utf8)
                 }
                 
