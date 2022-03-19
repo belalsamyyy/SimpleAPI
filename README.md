@@ -1,19 +1,143 @@
 # SimpleAPI
 
+### How to make Networking simple and easy 
 
-SimpleAPI is a lightweight HTTP Networking Library written in Swift based on UrlSession
-- networking easier, quicker & simpler than ever ⚡
-- SimpleAPI frees you from writing boilerplate code which makes writing networking code much easier.
-- You can access data on the Internet with almost zero effort
-- Work with your UI Componenet on main thread by default 
-- So, your code will be much cleaner and easier to read
+What if we just create a model class / struct and get our data immediately 🤔
 
-just look at this example for quick `GET` request :
+Something like create a model called `Movie` then go to your viewcontroller and say something like Movie.list() 
+And immediately get a list of `Movie` objects you can work with .. very fast & efficient 
+
+## 🚀 We need to move everything to the model 
+
+After creating your model, all you‘ve to do is to conform `Model` protocol 
+It will ask you to add 3 important information to communicate with your API 
+- [X] endpoint 
+- [X] params 
+- [X] headers 
+
+```swift 
+import Foundation
+import SimpleAPI
+
+struct Post: Model {
+    //API
+    static var endpoint: String! = "https://jsonplaceholder.typicode.com"
+    static var params: Params?
+    static var headers: Headers? = ["Content-type": "application/json"]
+
+    //Properties
+    var title: String
+    var body: String
+}
+```
+
+After all, more 3 lines to your model  won’t hurt 
+
+
+## 🥳 This is were the fun begins 
+
+`API` is our main class, using the magic of swift generics .. it accesses your generic model informations and pass them to its functions 
+
+`💡 Note => your model must conform Model protocol`
+
+```swift 
+API<YOUR-MODEL-HERE> 
+```
+
+API class has a 2 main static functions : 
+- [X] object => return 1 object of your model type 
+- [X] list => return a list of objects of your model type 
+
+### Quicker Version 
+- Return the value directly and if something goes wrong it will print a descriptive error message for you 
+
+`list()` function
 ```swift
-// "get" quick object of type "Post" with ID "5"
-// and use it immediately to set post's title property to a label text 
-API<Post>.quickObject(.get("5")) { post in 
-    self.label.text = post?.title
+API<Post>.list() { posts in
+    // do whatever you want with "posts" array ... 
+}
+```
+
+`object()` function's parameters 
+- [X] HTTPMethod [enum] - `.getWithoutID [default]`, `.get(id)`, `.put(id)`, `.delete(id)`, `.post`
+- [X] encoding [enum] -  `.json [default]`, `.url`
+- [X] decoding - [Bool] - `true [default]`, `false`
+
+### Notes 
+- `HTTMethod` => will add `\id` at the end of your endpoint automatically
+- `encoding` => to change encoding, json encoded or url encoded 
+- `decoding` => if your API response is succeed but empty, you need to set decoding to false
+ 
+#### GET - object without id  
+```swift
+API<Post>.object(.getWithoutID) { post in
+    self.label.text = post.title 
+}
+```
+
+#### GET - object with id  
+```swift
+API<Post>.object(.get("1")) { post in
+    self.label.text = post.title 
+}
+```
+
+#### PUT - object with id  
+```swift
+API<Post>.object(.put("1")) { post in
+    self.label.text = post.title 
+}
+```
+
+#### DELETE - object with id  
+```swift
+API<Post>.object(.delete("1"), decoding: false) { post in
+    self.label.text = post.title 
+}
+```
+
+#### POST 
+```swift
+API<Token>.object(.post, encoding: .url) { token in
+    print("\(token) posted successfully!")
+}
+```
+
+#### Examples for Success & Error Messages
+- 🔴 [Post] => request failed - you're offline, check your internet connection
+- 🟠 [Post] => request succeed - but didn't get any data from Api
+- 🟡 [Post] => request succeed - but decoding failed check "Post" properies data types are correct or maybe your object id is missing
+- 🟢 [Post] => request succeed - "GET" 1 object of type "Post" with id "1"
+- 🟢 [Post] => request succeed - "GET" list of 20 objects of type "Post"
+- 🔴 [Post] => request failed - check your endpoint is correct [https://jsonplaceholder.typicode.com/posts/1]
+
+
+### Longer Version 
+-  Return result enum with a .success & .failure callbacks for more customizations
+
+`listResult()` function 
+```swift 
+API<Post>.list { result in
+    switch result {
+    case .success(let posts):
+        // do whatever you want with "posts" array ... 
+        
+    case .failure(let error):
+        print(error)
+    }
+}
+```
+
+`objectResult()` function 
+```swift 
+API<Post>.object(get("1")) { result in
+    switch result {
+    case .success(let post):
+        self.label = post.title
+        
+    case .failure(let error):
+        print(error)
+    }
 }
 ```
 
@@ -25,230 +149,6 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod 'SimpleAPI'
 ```
-
-## Usage 
-
-### Step 1 [optional] - create `Constants.swift` file for your API Urls 
-
-```swift 
-import Foundation
-
-let BASE_URL = "https://jsonplaceholder.typicode.com"
-
-struct Endpoints {
-    static let posts = "\(BASE_URL)/posts"
-}
-```
-
-### step 2 [required] - your model must conform `Model` protocol 
-
- Model protocol will add 3 static properties to your struct 
- - [X] endpoint 
- - [X] params 
- - [X] headers
-
-`💡 Tip: add setParams() function so you don't have to specify params keys inside your viewController`
- 
-```swift 
-import Foundation
-import SimpleAPI
-
-struct Post: Model {
-    //API
-    static var endpoint: String! = Endpoints.posts
-    static var params: Params?
-    static var headers: Headers? = ["Content-type": "application/json"]
-
-    static func setParams(title: String, body: String) {
-        self.params = ["title": title, "body": body]
-    }
-    
-    //Properties
-    var title: String
-    var body: String
-    
-    private enum CodingKeys : String, CodingKey {
-        case title = "title"
-        case body = "body"
-    }
-    
-}
-```
-
-### step 3 - create your API function in ViewController 
-
- - [X] just type `API` and specify the type of your `<object>` that you want to return  
- - [X] you have 2 functions : `object` to return one object, `list` to return list of objects  
- - [X] `object` function takes 3 parameters the first one is `http method` enum like `.get(id)`, `.post`
- - [X] the second parameter is `decode` boolean its `true` by default
- - [X] but if API return nothing, you didn't need to decode the response to consider it as a success make it `false`
- - [X] the third parameter is `body` enum to specify request's httpbody encoding, it's `json` by default
-
-💡 Tip: `.get(id)` it will add `/id` at the end of your end point automatically
-
-
-### GET - list of objects
-
-```swift 
-    //MARK: - get list of posts
-    func getPosts() {
-        API<Post>.list { result in
-            switch result {
-            case .success(let posts):
-                posts.forEach { post in
-                    print(post!.title)
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-```
-
-### GET - object without id
-
-```swift 
-    //MARK: - get post with id
-    func getPost() {
-        API<Post>.object(.getWithoutID) { result in
-            switch result {
-            case .success(let post):
-                print(post!.title)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-```
-
-### GET - object with id
-
-```swift 
-    //MARK: - get post with id
-    func getPost(id: String) {
-        API<Post>.object(.get(id)) { result in
-            switch result {
-            case .success(let post):
-                print(post!.title)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-```
-
-### POST - object with id
-
-```swift 
-    //MARK: - set post
-    func setPost(title: String, body: String) {
-        Post.setParams(title: title, body: body)
-
-        API<Post>.object(.post) { result in
-            switch result {
-            case .success(let post):
-                print(post!.title)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-```
-    
-   
-### PUT - object with id
-
-```swift 
-    //MARK: - update post with id
-    func updatePost(id: String, title: String, body: String) {
-        Post.setParams(title: title, body: body)
-
-        API<Post>.object(.put(id)) { result in
-            switch result {
-            case .success(let post):
-                print(post!.body)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-```
-    
-### DELETE - object with id
-
-```swift 
-    //MARK: - delete post with id
-    func deletePost(id: String) {        
-        API<Post>.object(.delete(id), decode: false) { result in
-            switch result {
-            case .success(_):
-                print("Deleted Successfully !")
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-```
-
-### step 4 - call your API function in `viewDidLoad()` 
-```swift 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        getPosts()
-    }
-```
-
-## Extra Tips 😎
-
-💡 tip #1:  you can customize your `endpoint` from your function as you want, like this 
-
-```swift 
-   func getVideos(page: Int, genreID: String) {
-        Video.endpoint = "\(BASE_URL)\(CategoryName.movies)/genre/\(genreID)/\(page)" // << endpoint
-        API<Video>.list { result in
-          // .
-          // . 
-          // .
-```
-
-
-💡 tip #2: there're quicker versions of our 2 main functions => `quickObject` & `quickList`
- - [X] `object` & `list` comes with success & failure callbacks
- - [X] but `quickObject` & `quickList` just return the value directly
- - [X] if quick functions fails it'll only print the error without customizations 
-
-```swift
-API<Post>.quickObject(.get("5")) { post in 
-    self.label.text = post?.title
-}
-```
-
-```swift
-API<Post>.quickList() { posts in
-    posts.forEach { post in
-        print(post!.title)
-    }
-}
-```
-
-
-💡 tip #3: SimpleAPI set your parmaters to request's body
-- [X] parameters encoded as `json` by default
-- [X] but your can change it, to encoded as `urlencoded` like this 
-
-```swift 
-func login(email: String, password: String) {
-    // API
-    Token.setParams(email: email, password: password)
-
-    // Token
-    API<Token>.quickObject(.post, .urlencoded) { token in
-        // write your logic here 
-    }
-}
-```
-
 
 ## Author
 
