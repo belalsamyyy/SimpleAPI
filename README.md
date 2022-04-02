@@ -147,7 +147,7 @@ API<Post>.object(.delete("1"), decoding: false) { post in
 #### POST 
 ```swift
 API<Token>.object(.post, encoding: .url) { token in
-    print("posted successfully !")
+    // ...
 }
 ```
 
