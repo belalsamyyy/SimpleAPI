@@ -1,26 +1,45 @@
 # SimpleAPI
 
-### How to make Networking simple and easy 
+Simple lightweight HTTP Networking Library written in Swift based on UrlSession
 
-What if we just create a model class / struct and get our data immediately 🤔
+- [Requirements](#requirements)
+- [Installation](#installation)
+    - [Cocoapods](#cocoapods)
+- [Usage](#usage)
+    - [`Quick Start`](#quick-start)
+    - [`object()` and `objectResult()`](#object-and-objectresult)
+    - [`Examples`](#examples)
+- [Extra Features](#extra-features)
+- [Author](#author)
+- [License](#license)
 
-Something like create a model called `Movie` then go to your viewcontroller and say something like Movie.list() 
-And immediately get a list of `Movie` objects you can work with .. very fast & efficient 
+## Requirements
+- Swift 5.0+
+- iOS 13+
 
-## 🚀 We need to move everything to the model 
+## Installation
 
-After creating your model, all you‘ve to do is to conform `Model` protocol 
-It will ask you to add 3 important information to communicate with your API 
-- [X] endpoint 
-- [X] params 
-- [X] headers 
+### Cocoapods
+
+SimpleAPI is available through [CocoaPods](https://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod 'SimpleAPI', '~> 2.0.7'
+```
+
+## Usage
+
+### Quick Start
+
+#### 1. Create your model ( Must Conform to `Model`)
 
 ```swift 
 import Foundation
 import SimpleAPI
 
 struct Post: Model {
-    //API
+    //API => Model protocol will add 3 static properties to communicate with API
     static var endpoint: String! = "https://jsonplaceholder.typicode.com/posts"
     static var params: Params?
     static var headers: Headers? = ["Content-type": "application/json"]
@@ -31,46 +50,75 @@ struct Post: Model {
 }
 ```
 
-After all, more 3 lines to your model  won’t hurt 
+#### 2. Get your data immediately ⚡️⚡️⚡️
+- Quicker Version => return value directly
+    ```swift
+    API<Post>.object { post in
+        // do whatever you want with "post" object ... 
+    }
+    ```
+
+    ```swift
+    API<Post>.list { posts in
+        // do whatever you want with "posts" array ... 
+    }
+    ```
+
+- Longer Version => handle success & failure cases 
+    ```swift 
+    API<Post>.objectResult { result in
+        switch result {
+        case .success(let post):
+        // do whatever you want with "post" object ... 
+
+        case .failure(let error):
+            print(error)
+        }
+    }
+    ```
+    
+    ```swift 
+    API<Post>.listResult { result in
+        switch result {
+        case .success(let posts):
+            // do whatever you want with "posts" array ... 
+
+        case .failure(let error):
+            print(error)
+        }
+    }
+    ```
 
 
-## 🥳 This is were the fun begins 
+#### Get a descriptive success/error messages
 
-`API` is our main class, using the magic of swift generics .. it accesses your generic model informations and pass them to its functions 
+<img width="791" alt="Screen Shot 2022-04-02 at 11 44 47 AM" src="https://user-images.githubusercontent.com/38237387/161381722-22257fe7-492a-48f4-bfd6-379d97643fa3.png">
 
-`💡 Note => your model must conform Model protocol`
+### object() and objectResult()
 
-```swift 
-API<YOUR-MODEL-HERE> 
+| Parameters        | Value           | Notes  |
+| ------------- |:-------------:| -----:|
+|HTTPMethod [enum] | `.get() [default]`, `.put()`, `.delete()`, `.post()` | you could pass an endpoint extension for specfic request through http methods |
+|encoding [enum] | `.json [default]`, `.url` | to change body parameters encoding => json encoded or url encoded |
+|decoding - [Bool] | `true [default]`, `false` | if your API response is empty or not return object from the same type , you need to set decoding to false |
+
+#### Endpoint Extension
+
+you could pass an endpoint extension ( custom paths/queries) for specfic request through http methods
+
+```swift    
+// Post.endpoint = "https://jsonplaceholder.typicode.com/posts" [original]
+
+// .get("1") => https://jsonplaceholder.typicode.com/posts/1 🆕
+// .get("?page=1&search=movie") => https://jsonplaceholder.typicode.com/posts?page=1&search=movie 🆕
 ```
 
-API class has a 2 main static functions : 
-- [X] object => return 1 object of your model type 
-- [X] list => return a list of objects of your model type 
+### Examples 
 
-### Quicker Version 
-- Return the value directly and if something goes wrong it will print a descriptive error message for you 
 
-`list()` function
+#### GET - object
 ```swift
-API<Post>.list() { posts in
-    // do whatever you want with "posts" array ... 
-}
-```
-
-`object()` function's parameters 
-- [X] HTTPMethod [enum] - `.getWithoutID [default]`, `.get(id)`, `.put(id)`, `.delete(id)`, `.post`
-- [X] encoding [enum] -  `.json [default]`, `.url`
-- [X] decoding - [Bool] - `true [default]`, `false`
-
-### Notes 
-- `HTTMethod` => will add `\id` at the end of your endpoint automatically
-- `encoding` => to change encoding, json encoded or url encoded 
-- `decoding` => if your API response is succeed but empty, you need to set decoding to false
- 
-#### GET - object without id  
-```swift
-API<Post>.object(.getWithoutID) { post in
+API<Post>.object { post in
     self.label.text = post.title 
 }
 ```
@@ -103,52 +151,9 @@ API<Token>.object(.post, encoding: .url) { token in
 }
 ```
 
-#### Examples for Success & Error Messages
-- 🔴 [Post] => request failed - you're offline, check your internet connection
-- 🟠 [Post] => request succeed - but didn't get any data from Api
-- 🟡 [Post] => request succeed - but decoding failed check "Post" properies data types are correct or maybe your object id is missing
-- 🟢 [Post] => request succeed - "GET" 1 object of type "Post" with id "1"
-- 🟢 [Post] => request succeed - "GET" list of 20 objects of type "Post"
-- 🔴 [Post] => request failed - check your endpoint is correct [https://jsonplaceholder.typicode.com/posts/1]
-
-
-### Longer Version 
--  Return result enum with a .success & .failure callbacks for more customizations
-
-`listResult()` function 
-```swift 
-API<Post>.listResult { result in
-    switch result {
-    case .success(let posts):
-        // do whatever you want with "posts" array ... 
-        
-    case .failure(let error):
-        print(error)
-    }
-}
-```
-
-`objectResult()` function 
-```swift 
-API<Post>.objectResult(get("1")) { result in
-    switch result {
-    case .success(let post):
-        self.label = post.title
-        
-    case .failure(let error):
-        print(error)
-    }
-}
-```
-
-## Installation
-
-SimpleAPI is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod 'SimpleAPI'
-```
+## Extra Features
+- SimpleAPI run on the main thread, so you could work with your UI directly 
+- Endpoints support Arabic characters and spacing with percent-encoding by default
 
 ## Author
 
@@ -157,5 +162,4 @@ BelalSamy, belalsamy10@gmail.com
 ## License
 
 SimpleAPI is available under the MIT license. See the LICENSE file for more info.
-
 
