@@ -11,13 +11,12 @@ import Network
 public class API<M: Model> {
     
     public enum ResultOfObject {
-        case success(M?)
-        case string(String?)
-        case failure(String)
+        case success(object: M?)
+        case failure(error: String)
     }
     
     public enum ResultOfList {
-        case success([M?])
-        case failure(String)
+        case success(list: [M?])
+        case failure(error: String)
     }
 }
