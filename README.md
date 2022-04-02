@@ -133,14 +133,14 @@ API<Post>.object(.get("1")) { post in
 #### PUT - object with id  
 ```swift
 API<Post>.object(.put("1")) { post in
-    self.label.text = post.title 
+    // ...
 }
 ```
 
 #### DELETE - object with id  
 ```swift
 API<Post>.object(.delete("1"), decoding: false) { post in
-    self.label.text = post.title 
+    // ...
 }
 ```
 
