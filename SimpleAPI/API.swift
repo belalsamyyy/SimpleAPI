@@ -12,6 +12,7 @@ public class API<M: Model> {
     
     public enum ResultOfObject {
         case success(M?)
+        case string(String?)
         case failure(String)
     }
     

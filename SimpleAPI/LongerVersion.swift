@@ -12,24 +12,22 @@ extension API {
     //MARK: - Longer Version
     
     // object
-    public static func objectResult(_ method: HTTPMethod = .getWithoutID,
+    public static func objectResult(_ method: HTTPMethod = .get(),
                                     encoding: Encoding = .json,
                                     decoding: Bool = true,
-                                    _ result: @escaping (_ result: ResultOfObject ) -> ()) {
+                                    _ result: @escaping (_ object: ResultOfObject ) -> ()) {
         
         let endPoint: String
         
         switch method {
-        case .getWithoutID:
-            endPoint = M.endpoint
-        case .get(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
-        case .post:
-            endPoint = M.endpoint
-        case .put(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
-        case .delete(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
+        case .get(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
+        case .post(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
+        case .put(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
+        case .delete(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
         }
         
         APIService.request(endPoint, method: method, params: M.params, headers: M.headers, encoding: encoding) { response in
@@ -37,7 +35,7 @@ extension API {
             case .success(let data):
                 
                 guard let data = data else {
-                    DispatchQueue.main.async { result(.failure(ResultMessage.noDataFromApi.message)) } // Main Thread
+                    DispatchQueue.main.async { result(.failure(ResultMessage.noDataFromApi(endPoint).message)) } // Main Thread
                     return
                 }
                 
@@ -46,18 +44,20 @@ extension API {
                     do {
                         let data = try JSONDecoder().decode(M.self, from: data)
                         DispatchQueue.main.async { result(.success(data)) } // Main Thread
-                        print(ResultMessage.objectRequestSucceed(method).message)
+                        print(ResultMessage.objectRequestSucceed(method, endPoint).message)
+                        dump(data)
                         
                     } catch {
                         DispatchQueue.main.async {
-                            result(.failure("\(ResultMessage.decodingFailed.message)"))
+                            result(.failure("\(ResultMessage.decodingFailed(endPoint).message)"))
                         } // Main Thread
                     }
                     
                 } else {
                     // =============== Dont need to decode ====================
-                    DispatchQueue.main.async { result(.success(nil)) } // Main Thread
-                    print(ResultMessage.requestSucceedWithoutDecoding(method).message)
+                    let dataAsString = String(decoding: data, as: UTF8.self)
+                    DispatchQueue.main.async { result(.string(dataAsString)) } // Main Thread
+                    print(ResultMessage.requestSucceedWithoutDecoding(method, endPoint).message)
 
                 }
    
@@ -68,7 +68,7 @@ extension API {
                     if Reachability.isConnected() {
                         result(.failure("\(ResultMessage.wrongEndpoint(endPoint).message) "))
                     } else {
-                        result(.failure("\(ResultMessage.noInternetConnection.message) "))
+                        result(.failure("\(ResultMessage.noInternetConnection(endPoint).message) "))
 
                     }
                 }
@@ -78,28 +78,28 @@ extension API {
     
     
     
-    
     // list
     
-    public static func listResult(_ result: @escaping (_ result: ResultOfList ) -> ()) {
-        APIService.request(M.endpoint, method: .getWithoutID, params: M.params, headers: M.headers) { response in
+    public static func listResult(_ result: @escaping (_ list: ResultOfList ) -> ()) {
+        APIService.request(M.endpoint, method: .get(), params: M.params, headers: M.headers) { response in
             switch response {
             case .success(let data):
                 
                 guard let data = data else {
-                    DispatchQueue.main.async { result(.failure(ResultMessage.noDataFromApi.message)) } // Main Thread
+                    DispatchQueue.main.async { result(.failure(ResultMessage.noDataFromApi(M.endpoint).message)) } // Main Thread
                     return
                 }
     
                 do {
                     let data = try JSONDecoder().decode([M].self, from: data)
                     DispatchQueue.main.async { result(.success(data)) } // Main Thread
-                    print(ResultMessage.listRequestSucceed(data.count).message)
+                    print(ResultMessage.listRequestSucceed(data.count, M.endpoint).message)
+                    dump(data)
 
                 } catch {
                     // Main Thread
                     DispatchQueue.main.async {
-                        result(.failure(" \(ResultMessage.decodingFailed.message) "))
+                        result(.failure(" \(ResultMessage.decodingFailed(M.endpoint).message) "))
                     }
                 }
 
@@ -109,7 +109,7 @@ extension API {
                     if Reachability.isConnected() {
                         result(.failure("\(ResultMessage.wrongEndpoint(M.endpoint).message) "))
                     } else {
-                        result(.failure("\(ResultMessage.noInternetConnection.message) "))
+                        result(.failure("\(ResultMessage.noInternetConnection(M.endpoint).message) "))
                     }
                 }
             }

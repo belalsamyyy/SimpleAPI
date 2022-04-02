@@ -10,7 +10,7 @@ import Foundation
 //MARK: - Generic Model
 
 public protocol Model: Codable {
-    static var endpoint: String! { get set }
+    static var endpoint: Endpoint! { get set }
     static var params: Params? { get set }
     static var headers: Headers? { get set }
 }

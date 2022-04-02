@@ -7,62 +7,22 @@
 
 import Foundation
 
-public enum HTTPMethod {
-    case getWithoutID
-    case get(_ id: String)
-    case post
-    case put(_ id: String)
-    case delete(_ id: String)
-    
-    var name: String {
-        switch self {
-        case .getWithoutID:
-            return "GET"
-        case .get:
-            return "GET"
-        case .post:
-            return "POST"
-        case .put:
-            return "PUT"
-        case .delete:
-            return "DELETE"
-        }
-    }
-    
-    var id: String {
-        switch self {
-        case .getWithoutID:
-            return ""
-        case .get(let id):
-            return "with id \"\(id)\""
-        case .post:
-            return ""
-        case .put(let id):
-            return "with id \"\(id)\""
-        case .delete(let id):
-            return "with id \"\(id)\""
-        }
-    }
-    
-}
-
-public enum Encoding {
-    case json
-    case url
-}
+//MARK: - TypeAlias
 
 public typealias Params = [String: Any]
 public typealias Headers = [String: String]
+public typealias Endpoint = String
 
+//MARK: - APIService
 
 public class APIService {
     
     public enum Response {
-        case success(Data?)
-        case failure(Error?)
+        case success(data: Data?)
+        case failure(error: Error?)
     }
 
-    public static func request(_ endpoint: String,
+    public static func request(_ endpoint: Endpoint,
                                method: HTTPMethod,
                                params: Params? = nil,
                                headers: Headers? = nil,
@@ -71,6 +31,7 @@ public class APIService {
 
             // request from endpoint
             guard let allowArabicAndSpacesInEndPoint = endpoint.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        
             guard let url = URL(string: allowArabicAndSpacesInEndPoint) else { return }
             var request = URLRequest(url: url)
             
@@ -108,10 +69,10 @@ public class APIService {
                 let statusCode = (myResponse as! HTTPURLResponse).statusCode
                                 
                 if 200 ... 299 ~= statusCode {
-                    complete(.success(data))
+                    complete(.success(data: data))
                     
                 }else{
-                    complete(.failure(error))
+                    complete(.failure(error: error))
                 }
             }.resume()
             
@@ -119,7 +80,7 @@ public class APIService {
 }
 
 
-func urlEncoded(dict: [String: Any]) -> String {
+func urlEncoded(dict: Params) -> String {
     var resultString = ""
     for (key, value) in dict {
         resultString = "\(resultString)&\(key)=\(value)"

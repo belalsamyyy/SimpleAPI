@@ -11,24 +11,22 @@ extension API {
     
     //MARK: - Quicker Version
     
-    public static func object(_ method: HTTPMethod = .getWithoutID,
+    public static func object(_ method: HTTPMethod = .get(),
                               encoding: Encoding = .json,
                               decoding: Bool = true,
-                              _ result: @escaping (_ result: M? ) -> ()) {
+                              _ result: @escaping (_ object: M? ) -> ()) {
         
         let endPoint: String
         
         switch method {
-        case .getWithoutID:
-            endPoint = M.endpoint
-        case .get(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
-        case .post:
-            endPoint = M.endpoint
-        case .put(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
-        case .delete(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
+        case .get(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
+        case .post(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
+        case .put(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
+        case .delete(let path):
+            endPoint = "\(M.endpoint!)\(path.starts(with: "?") ? "" : "/")\(path)"
         }
         
         APIService.request(endPoint, method: method, params: M.params, headers: M.headers, encoding: encoding) { response in
@@ -36,7 +34,7 @@ extension API {
             case .success(let data):
                 
                 guard let data = data else {
-                    DispatchQueue.main.async { print(ResultMessage.noDataFromApi.message) } // Main Thread
+                    DispatchQueue.main.async { print(ResultMessage.noDataFromApi(endPoint).message) } // Main Thread
                     return
                 }
                 
@@ -45,18 +43,19 @@ extension API {
                     do {
                         let data = try JSONDecoder().decode(M.self, from: data)
                         DispatchQueue.main.async { result(data) } // Main Thread
-                        print(ResultMessage.objectRequestSucceed(method).message)
+                        print(ResultMessage.objectRequestSucceed(method, endPoint).message)
+                        dump(data)
 
                     } catch {
                         DispatchQueue.main.async {
-                            print("\(ResultMessage.decodingFailed.message) ")
+                            print("\(ResultMessage.decodingFailed(endPoint).message) ")
                         } // Main Thread
                     }
                     
                 } else {
                     // =============== Dont need to decode ====================
                     DispatchQueue.main.async { result(nil) } // Main Thread
-                    print(ResultMessage.requestSucceedWithoutDecoding(method).message)
+                    print(ResultMessage.requestSucceedWithoutDecoding(method, endPoint).message)
                 }
    
                 
@@ -66,7 +65,7 @@ extension API {
                     if Reachability.isConnected() {
                         print("\(ResultMessage.wrongEndpoint(endPoint).message)")
                     } else {
-                        print("\(ResultMessage.noInternetConnection.message) ")
+                        print("\(ResultMessage.noInternetConnection(endPoint).message) ")
                     }
                 }
             }
@@ -76,25 +75,26 @@ extension API {
     
     
     // list
-    public static func list(_ result: @escaping (_ result: [M?] ) -> ()) {
-        APIService.request(M.endpoint, method: .getWithoutID, params: M.params, headers: M.headers) { response in
+    public static func list(_ result: @escaping (_ list: [M?] ) -> ()) {
+        APIService.request(M.endpoint, method: .get(), params: M.params, headers: M.headers) { response in
             switch response {
             case .success(let data):
                 
                 guard let data = data else {
-                    DispatchQueue.main.async { print(ResultMessage.noDataFromApi.message) } // Main Thread
+                    DispatchQueue.main.async { print(ResultMessage.noDataFromApi(M.endpoint).message) } // Main Thread
                     return
                 }
     
                 do {
                     let data = try JSONDecoder().decode([M].self, from: data)
                     DispatchQueue.main.async { result(data) } // Main Thread
-                    print(ResultMessage.listRequestSucceed(data.count).message)
+                    print(ResultMessage.listRequestSucceed(data.count, M.endpoint).message)
+                    dump(data)
 
                 } catch {
                     // Main Thread
                     DispatchQueue.main.async {
-                        print("\(ResultMessage.decodingFailed.message)")
+                        print("\(ResultMessage.decodingFailed(M.endpoint).message)")
                     }
                 }
 
@@ -104,7 +104,7 @@ extension API {
                     if Reachability.isConnected() {
                         print("\(ResultMessage.wrongEndpoint(M.endpoint).message) ")
                     } else {
-                        print("\(ResultMessage.noInternetConnection.message) ")
+                        print("\(ResultMessage.noInternetConnection(M.endpoint).message) ")
                     }
                 }
             }

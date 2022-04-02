@@ -27,6 +27,8 @@
 		41E6885B26EBE77700A04CAA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41E6885926EBE77700A04CAA /* LaunchScreen.storyboard */; };
 		41E6886226EBE8BC00A04CAA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E6886026EBE8BC00A04CAA /* API.swift */; };
 		41E6886326EBE8BC00A04CAA /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E6886126EBE8BC00A04CAA /* APIService.swift */; };
+		41FEF84E27EBB56300111F2E /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FEF84D27EBB56300111F2E /* HTTPMethod.swift */; };
+		41FEF85027EBB59900111F2E /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41FEF84F27EBB59900111F2E /* Encoding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,8 @@
 		41E6885C26EBE77700A04CAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41E6886026EBE8BC00A04CAA /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		41E6886126EBE8BC00A04CAA /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		41FEF84D27EBB56300111F2E /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		41FEF84F27EBB59900111F2E /* Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,8 @@
 				41E6883126EBE75100A04CAA /* SimpleAPI.h */,
 				41E6883226EBE75100A04CAA /* Info.plist */,
 				4108663327E3E894001DE5E1 /* Reachability.swift */,
+				41FEF84D27EBB56300111F2E /* HTTPMethod.swift */,
+				41FEF84F27EBB59900111F2E /* Encoding.swift */,
 				41E6886126EBE8BC00A04CAA /* APIService.swift */,
 				4108663727E3F54C001DE5E1 /* Model.swift */,
 				41E6886026EBE8BC00A04CAA /* API.swift */,
@@ -324,10 +330,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41FEF85027EBB59900111F2E /* Encoding.swift in Sources */,
 				41C26DBB27E5E93B0020783E /* ResultMessage.swift in Sources */,
 				4108663827E3F54C001DE5E1 /* Model.swift in Sources */,
 				41E6886326EBE8BC00A04CAA /* APIService.swift in Sources */,
 				4108663627E3F4F6001DE5E1 /* QuickerVersion.swift in Sources */,
+				41FEF84E27EBB56300111F2E /* HTTPMethod.swift in Sources */,
 				41E6886226EBE8BC00A04CAA /* API.swift in Sources */,
 				4108663427E3E894001DE5E1 /* Reachability.swift in Sources */,
 				41C26DB927E5E8BE0020783E /* LongerVersion.swift in Sources */,
@@ -448,6 +456,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -505,6 +514,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
